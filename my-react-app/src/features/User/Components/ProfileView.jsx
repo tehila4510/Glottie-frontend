@@ -133,7 +133,7 @@ const handleAvatarChange = async (e) => {
           </button>
         </div>
 
-        {/* Password Form */}
+        {/* Password Form) */}
         <div className="edit-form">
           <div className="form-title">Security</div>
           <div className="form-group">

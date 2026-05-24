@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   useRegisterUserMutation,
   useUpdateUserMutation,
@@ -17,27 +17,32 @@ import "./auth.css";
 export default function AuthPage({ onAuthSuccess }) {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [tab, setTab] = useState(location.pathname === "/register" ? "register" : "login");
+  const navigate = useNavigate();
+  const [updateUser] = useUpdateUserMutation();
+  // בתוך AuthPage
+  const [pendingAuth, setPendingAuth] = useState(null);
+  // const currentUser = useSelector((state) => state.user.user);
+  // const currentToken = useSelector((state) => state.user.token);
+
+  const isRegisterPath = location.pathname === "/register";
   const [step, setStep] = useState("form");
   const [alert, setAlert] = useState(null);
-  const [registrationResult, setRegistrationResult] = useState(null); // תוצאת רישום זמנית
 
   const [registerUser, { isLoading: registering }] = useRegisterUserMutation();
-  const [updateUser] = useUpdateUserMutation();
+  // const [updateUser] = useUpdateUserMutation();
 
-  
+  useEffect(() => {
+    setAlert(null);
+    setStep("form");
+  }, [location.pathname]);
+
   const getErrorMessage = (err) => {
-    if (err?.data?.errors) {
+    if (err?.data?.errors)
       return Object.values(err.data.errors).flat().join(", ");
-    }
-    if (err?.data?.message) {
-      return err.data.message;
-    }
-    if (err?.status === "FETCH_ERROR") {
-      return "לא ניתן ליצור קשר עם השרת. וודא שהוא מופעל.";
-    }
-    return "משהו השתבש, נסה שוב מאוחר יותר.";
+    if (err?.data?.message) return err.data.message;
+    return "Something went wrong, try again later.";
   };
+
   const handleRegisterNext = async (formData) => {
     setAlert(null);
     try {
@@ -45,56 +50,63 @@ export default function AuthPage({ onAuthSuccess }) {
       dataToSend.append("Name", formData.name);
       dataToSend.append("Email", formData.email);
       dataToSend.append("Password", formData.password);
-      if (formData.file) {
-        dataToSend.append("file", formData.file);
-      }
+      if (formData.file) dataToSend.append("AvatarUrl", formData.AvatarUrl);
 
       const result = await registerUser(dataToSend).unwrap();
 
-      setRegistrationResult(result);
-      setStep("level");
-     } catch (err) {
-        const msg = err?.data;
-        if (typeof msg === 'string' && msg.toLowerCase().includes('already exists')) {
-            setAlert({
-                type: 'error',
-                msg: 'This email is already registered. '
-            });
-            setTab('login');
-            setStep('form');
-        } else {
-            setAlert({ type: 'error', msg: getErrorMessage(err) });
-        }
-    }
-};
+      const user = result?.user || result?.User;
+      const token = result?.token || result?.Token;
+      // dispatch(setUser({ token, user }));
 
-  // ── שלב 2: בחירת רמה — עדכון ואז כניסה לאפליקציה ──
+      setPendingAuth({ user, token });
+      dispatch(setUser({ token, user: null }));
+
+      setStep("level");
+    } catch (err) {
+      if (
+        err?.status === 409 ||
+        JSON.stringify(err).toLowerCase().includes("exists")
+      ) {
+        setAlert({
+          type: "error",
+          msg: "User already exists. Please log in instead.",
+        });
+        setTimeout(() => navigate("/login"), 2500);
+      } else {
+        setAlert({ type: "error", msg: getErrorMessage(err) });
+      }
+    }
+  };
+
   const handleLevelFinalize = async (levelId) => {
     setAlert(null);
+    const { user, token } = pendingAuth; 
+  
+  const userId = user?.userId || user?.id;
     try {
-      const user = registrationResult?.user || registrationResult?.User;
-      const token = registrationResult?.token || registrationResult?.Token;
-      const userId = user?.userId || user?.id;
-
-      if (!userId) throw new Error("User ID not found");
-
       const dataToSend = new FormData();
       dataToSend.append("Name", user?.name || user?.Name);
-      dataToSend.append("Email", user?.email || user?.Email);
-      dataToSend.append("CurrentLevel", levelId);
+    dataToSend.append("Email", user?.email || user?.Email);
+    dataToSend.append("CurrentLevel", levelId);
+    const updatedUserFromServer = await updateUser({ id: userId, data: dataToSend }).unwrap();
 
-      await updateUser({ id: userId, data: dataToSend }).unwrap();
+   
+    dispatch(
+      setUser({
+        token: token, 
+        user: updatedUserFromServer, 
+      })
+    );
+    onAuthSuccess();
 
-      // ✅ רק עכשיו — אחרי בחירת רמה — נכנסים לאפליקציה
-      dispatch(setUser({ token, user: { ...user, CurrentLevel: levelId } }));
-      onAuthSuccess();
     } catch (err) {
-      console.error("Update level error:", err);
-      // גם אם העדכון נכשל — נכנסים עם הרמה שנבחרה
-      const user = registrationResult?.user || registrationResult?.User;
-      const token = registrationResult?.token || registrationResult?.Token;
-      dispatch(setUser({ token, user: { ...user, CurrentLevel: levelId } }));
-      onAuthSuccess();
+      console.error("Update level error FULL:", JSON.stringify(err));
+      setAlert({
+        type: "error",
+        msg:
+          "Level update failed: " +
+          (err?.data?.message || err?.message || "unknown"),
+      });
     }
   };
 
@@ -113,61 +125,39 @@ export default function AuthPage({ onAuthSuccess }) {
           <>
             <div className="auth-tabs">
               <button
-                className={`auth-tab ${tab === "login" ? "active" : ""}`}
-                onClick={() => {
-                  setTab("login");
-                  setAlert(null);
-                }}
+                className={`auth-tab ${!isRegisterPath ? "active" : ""}`}
+                onClick={() => navigate("/login")}
               >
                 🔐 Login
               </button>
               <button
-                className={`auth-tab ${tab === "register" ? "active" : ""}`}
-                onClick={() => {
-                  setTab("register");
-                  setAlert(null);
-                }}
+                className={`auth-tab ${isRegisterPath ? "active" : ""}`}
+                onClick={() => navigate("/register")}
               >
                 ✨ Sign Up
               </button>
             </div>
 
-            {alert && (
-              <div className={`alert ${alert.type}`}>
-                {alert.type === "error" ? "⚠️" : "✅"} {alert.msg}
-              </div>
-            )}
+            {alert && <div className={`alert ${alert.type}`}>{alert.msg}</div>}
 
-            {tab === "login" ? (
-              <LoginTab
-                onAuthSuccess={onAuthSuccess}
-                setAlert={setAlert}
-                setTab={setTab}
-              />
+            {!isRegisterPath ? (
+              <LoginTab onAuthSuccess={onAuthSuccess} setAlert={setAlert} />
             ) : (
               <RegisterTab
                 onNextStep={handleRegisterNext}
-                setTab={setTab}
                 isLoading={registering}
               />
             )}
           </>
         )}
 
-        {/* ─── Step: LEVEL PICKER ─── */}
         {step === "level" && (
-          <>
-            {alert && (
-              <div className={`alert ${alert.type}`}>⚠️ {alert.msg}</div>
-            )}
-            <LevelPicker
-              onSelectLevel={handleLevelFinalize}
-              onStartTest={() => setStep("test")}
-            />
-          </>
+          <LevelPicker
+            onSelectLevel={handleLevelFinalize}
+            onStartTest={() => setStep("test")}
+          />
         )}
 
-        {/* ─── Step: PLACEMENT TEST ─── */}
         {step === "test" && (
           <PlacementTest
             onComplete={handleLevelFinalize}

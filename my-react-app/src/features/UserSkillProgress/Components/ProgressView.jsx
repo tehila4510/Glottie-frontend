@@ -125,7 +125,7 @@ export default function ProgressView() {
           <div className="rings-container">
             <RingChart pct={avgAccuracy}   color="#22C67A" label="Accuracy"   />
             <RingChart pct={avgCompletion} color="#7B5EFF" label="Completion" />
-            <RingChart pct={Math.min((currentUser?.currentLevel || 1) * 10, 100)} color="#FFB800" label="Level" />
+            <RingChart pct={Math.min((currentUser?.CurrentLevel || 1) * 10, 100)} color="#FFB800" label="Level" />
           </div>
         </div>
 

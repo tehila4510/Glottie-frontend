@@ -3,9 +3,10 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Avatar from '@mui/material/Avatar';
 import Badge from '@mui/material/Badge';
+import { useNavigate } from 'react-router-dom';
 
 
-export default function RegisterTab({ onNextStep, setTab }) {
+export default function RegisterTab({ onNextStep }) {
   const [regForm, setRegForm] = useState({
     name: '',
     email: '',
@@ -15,7 +16,7 @@ export default function RegisterTab({ onNextStep, setTab }) {
   const [errors, setErrors]   = useState({});
   const [file, setFile]       = useState(null);
   const [preview, setPreview] = useState(null);
-
+const navigate = useNavigate();
   const validate = () => {
     const e = {};
     if (!regForm.name.trim()) e.name = 'Required';
@@ -130,7 +131,7 @@ export default function RegisterTab({ onNextStep, setTab }) {
 
       <p style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: 'var(--text-muted)', fontWeight: 700 }}>
         Already have an account?{' '}
-        <span style={{ color: 'var(--purple)', cursor: 'pointer' }} onClick={() => setTab('login')}>
+        <span style={{ color: 'var(--purple)', cursor: 'pointer' }} onClick={() => navigate('/login')}>
           Login →
         </span>
       </p>
