@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from 'react-router-dom';
 import {
   useRegisterUserMutation,
   useUpdateUserMutation,
@@ -15,8 +16,8 @@ import "./auth.css";
 
 export default function AuthPage({ onAuthSuccess }) {
   const dispatch = useDispatch();
-
-  const [tab, setTab] = useState("login");
+  const location = useLocation();
+  const [tab, setTab] = useState(location.pathname === "/register" ? "register" : "login");
   const [step, setStep] = useState("form");
   const [alert, setAlert] = useState(null);
   const [registrationResult, setRegistrationResult] = useState(null); // תוצאת רישום זמנית
@@ -26,22 +27,17 @@ export default function AuthPage({ onAuthSuccess }) {
 
   
   const getErrorMessage = (err) => {
-    // אם השרת החזיר ולידציה של שדות (למשל סיסמה קצרה מדי)
     if (err?.data?.errors) {
       return Object.values(err.data.errors).flat().join(", ");
     }
-    // אם השרת החזיר הודעה פשוטה
     if (err?.data?.message) {
       return err.data.message;
     }
-    // אם השרת נפל או אין אינטרנט
     if (err?.status === "FETCH_ERROR") {
       return "לא ניתן ליצור קשר עם השרת. וודא שהוא מופעל.";
     }
-    // ברירת מחדל לכל מקרה אחר
     return "משהו השתבש, נסה שוב מאוחר יותר.";
   };
-  // ── שלב 1: רישום — שולח נתונים לשרת אבל לא נכנס לאפליקציה עדיין ──
   const handleRegisterNext = async (formData) => {
     setAlert(null);
     try {
@@ -55,13 +51,22 @@ export default function AuthPage({ onAuthSuccess }) {
 
       const result = await registerUser(dataToSend).unwrap();
 
-      // ✅ שומר תוצאה אבל לא dispatch — כדי לא לקפוץ ל-GlottieApp לפני בחירת רמה
       setRegistrationResult(result);
       setStep("level");
-    } catch (err) {
-  setAlert({ type: 'error', msg: getErrorMessage(err) });
-}
-  };
+     } catch (err) {
+        const msg = err?.data;
+        if (typeof msg === 'string' && msg.toLowerCase().includes('already exists')) {
+            setAlert({
+                type: 'error',
+                msg: 'This email is already registered. '
+            });
+            setTab('login');
+            setStep('form');
+        } else {
+            setAlert({ type: 'error', msg: getErrorMessage(err) });
+        }
+    }
+};
 
   // ── שלב 2: בחירת רמה — עדכון ואז כניסה לאפליקציה ──
   const handleLevelFinalize = async (levelId) => {

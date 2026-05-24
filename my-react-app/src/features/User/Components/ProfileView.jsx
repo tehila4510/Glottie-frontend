@@ -37,6 +37,7 @@ await updateUser({ id: currentUser.userId, data: formData }).unwrap();
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
     } catch (err) {
+      console.error(err);
       alert('Update failed');
     }
   };
@@ -82,7 +83,7 @@ const handleAvatarChange = async (e) => {
           <h2>{currentUser.name}</h2>
           <p>{currentUser.email}</p>
           <div className="profile-badges">
-            <span className="badge-chip"><span> <img src={streak} alt="logo" width="20px" /></span> {currentUser.streakDays || 0} Streak</span>
+            <span className="badge-chip"><span> <img src={streak} alt="logo" width="20px" /></span> {currentUser.streak || 0} Streak</span>
             <span className="badge-chip"><span> <img src={level} alt="logo" width="20px" /></span>   Level {currentUser.currentLevel || 1}</span>
           </div>
         </div>
@@ -92,7 +93,7 @@ const handleAvatarChange = async (e) => {
       <div className="profile-stats-grid">
         {[
           { val: currentUser.currentLevel || 1, lbl: 'Level' },
-          { val: currentUser.streakDays || 0, lbl: 'Streak' },
+          { val: currentUser.streak|| 0, lbl: 'Streak' },
           { val: currentUser.xp || 0, lbl: 'Total XP' },
           { val: (currentUser.maxXp || 100) - (currentUser.xp || 0), lbl: 'Next Level' },
         ].map((s) => (
@@ -137,14 +138,14 @@ const handleAvatarChange = async (e) => {
           <div className="form-title">Security</div>
           <div className="form-group">
             <label className="form-label">New Password</label>
-            <input className="form-input" type="password" placeholder="••••••••" />
+            <input className="form-input" type="password"  />
           </div>
           <div className="form-group">
             <label className="form-label">Confirm New Password</label>
-            <input className="form-input" type="password" placeholder="••••••••" />
+            <input className="form-input" type="password" />
           </div>
           <button className="btn-primary" style={{background: '#0f172a'}}>Update Password</button>
-        </div>
+        </div> 
       </div>
     </div>
   );

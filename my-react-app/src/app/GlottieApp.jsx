@@ -32,9 +32,15 @@ const TITLES = {
 };
 
 export default function GlottieApp() {
-  const { currentUser }           = useSelector((state) => state.user);
+const { currentUser, isLoggedIn } = useSelector((state) => state.user);
   const location = useLocation(); 
-
+if (!isLoggedIn) {
+    return (
+      <div className="scroll-area" style={{ height: '100vh', overflowY: 'auto' }}>
+        <AppRouter />
+      </div>
+    );
+  }
   return (
     <>
       <Particles />

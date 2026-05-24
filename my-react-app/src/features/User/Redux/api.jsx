@@ -58,6 +58,10 @@ export const userApi = createApi({
         method: "DELETE",
       }),
     }),
+    getUser: builder.query({
+  query: (id) => `/${id}`,
+  providesTags: ['Users'],
+}),
 
   }),
 });
@@ -67,4 +71,5 @@ export const {
   useLoginUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useLazyGetUserQuery,
 } = userApi;

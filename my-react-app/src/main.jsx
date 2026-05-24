@@ -5,17 +5,17 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 import AuthPage   from './auth/AuthPage.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
 export function Root() {
   
-  const { isLoggedIn } = useSelector((state) => state.user);
+  // const { isLoggedIn } = useSelector((state) => state.user);
 
-  if (!isLoggedIn) {
-    return <AuthPage onAuthSuccess={() => {}} />;
-  }
+  // if (!isLoggedIn) {
+  //   return <AuthPage onAuthSuccess={() => {}} />;
+  // }
   return <GlottieApp />;
 }
 

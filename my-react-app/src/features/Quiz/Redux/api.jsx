@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const quizApi = createApi({
   reducerPath: 'quizApi',
-
+tagTypes: ['UserSkillProgress', 'Users'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://localhost:7185/api',
     prepareHeaders: (headers, { getState }) => {
@@ -28,6 +28,7 @@ export const quizApi = createApi({
         url: `/Quiz/end-session/${sessionId}`,
         method: 'POST',
       }),
+      invalidatesTags: ['UserSkillProgress', 'Users'],
     }),
 
     // GET /api/Quiz/next-question/{sessionId}/{skillId?}
@@ -39,7 +40,6 @@ export const quizApi = createApi({
     }),
 
     // POST /api/Quiz/submit-answer
-    
     submitAnswer: builder.mutation({
       query: ({ answerDto }) => ({
         url: `/Quiz/submit-answer`,
@@ -52,6 +52,7 @@ loseHeart: builder.mutation({
     url: '/User/lose-heart',
     method: 'POST',
   }),
+  invalidatesTags: ['Users'],
 }),
   }),
 });
