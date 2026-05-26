@@ -1,21 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseApi } from '../../../app/baseApi'; 
 
-export const quizApi = createApi({
-  reducerPath: 'quizApi',
-tagTypes: ['UserSkillProgress', 'Users'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://localhost:7185/api',
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().user.token;
-const isLegalToken = /^[ -~]*$/.test(token);
-
-if (token && isLegalToken) {
-    headers.set('authorization', `Bearer ${token}`);
-}
-  
-   return headers;
-    },
-  }),
+export const quizApi = baseApi.injectEndpoints({
 
   endpoints: (builder) => ({
 

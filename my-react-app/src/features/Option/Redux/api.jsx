@@ -1,14 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export const questionOptionApi = createApi({
-  reducerPath: 'questionOptionApi',
-
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://localhost:7185/api'
-  }),
-
-  tagTypes: ['QuestionOption'],
-
+import { baseApi } from '../../../app/baseApi';
+export const questionOptionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
     // GET /api/QuestionOption 

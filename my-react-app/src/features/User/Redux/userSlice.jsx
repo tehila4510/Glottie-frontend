@@ -44,22 +44,16 @@ const userSlice = createSlice({
   state.currentUser = user ?? null;
   state.token = token ?? null;
   state.isLoggedIn = !!token && !!user;
-
-      // if (token) localStorage.setItem('token', token);
-      // if (user) localStorage.setItem('user', JSON.stringify(user));
 },
 
     updateCurrentUser: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload };
-      // localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
 
     logout: (state) => {
       state.currentUser = null;
       state.token = null;
       state.isLoggedIn = false;
-        // localStorage.removeItem('token');
-      // localStorage.removeItem('user');
     },
 
     

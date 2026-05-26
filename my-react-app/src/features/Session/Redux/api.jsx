@@ -1,14 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseApi } from '../../../app/baseApi'; // ייבוא הבסיס המשותף
 
-export const sessionApi = createApi({
-  reducerPath: 'sessionApi',
-
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://localhost:7185/api'
-  }),
-
-  tagTypes: ['Session'],
-
+export const sessionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
     // GET /api/Session

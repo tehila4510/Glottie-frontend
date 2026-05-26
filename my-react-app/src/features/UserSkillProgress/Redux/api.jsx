@@ -1,20 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { baseApi } from '../../../app/baseApi'; // ייבוא הבסיס המשותף
 
-export const userSkillProgressApi = createApi({
- reducerPath: 'userSkillProgressApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://localhost:7185/api',
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().user.token || localStorage.getItem('token');
-      
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-  tagTypes: ['UserSkillProgress'],
-
+export const userSkillProgressApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
     // GET /api/UserSkillProgress 

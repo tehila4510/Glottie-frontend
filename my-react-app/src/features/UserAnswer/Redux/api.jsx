@@ -1,19 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from '../../../app/baseApi'; // ייבוא הבסיס המשותף
 
-export const userAnswerApi = createApi({
-  reducerPath: "userAnswerApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://localhost:7185/api",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().user.token;
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-  tagTypes: ["UserAnswer"],
-
+export const userAnswerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // GET /api/UserAnswer
     getAllUserAnswers: builder.query({
