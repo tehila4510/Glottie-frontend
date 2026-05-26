@@ -7,29 +7,17 @@ import UserAvatar from '../features/User/Components/UserAvatar';
 // סגנונות
 import '../styles/variables.css';
 import AppRouter from './router';
+import { NAV_CONFIG } from '../utils/navConfig';
 
 import home from "../../public/home.png";
-import progress from "../../public/progress.png";
-import errors from "../../public/errors.png";
-import chat from "../../public/chat.png";
-import profile from "../../public/profile.png";
-import settings from "../../public/settings.png";
-import help from "../../public/help.png";
 import streak from "../../public/streak.png";
 import xp from "../../public/xp.png";
 
 import Particles from './Particles';
-
-const TITLES = {
-  '/':         <span> <img src={home} alt="logo" width="30px" />  Home</span>
-,
-  '/progress': <span> <img src={progress} alt="logo" width="30px" />  Progress</span>,
-  '/errors': <span> <img src={errors} alt="logo" width="30px" />  My Mistakes</span>,
-  '/profile': <span> <img src={profile} alt="logo" width="30px" />  Profile</span>,
-  '/chat': <span> <img src={chat} alt="logo" width="30px" />  Glottie Teacher</span>,
-  '/settings': <span> <img src={settings} alt="logo" width="30px" />  Settings</span>,
-  '/help': <span> <img src={help} alt="logo" width="30px" />  Help</span> ,
-};
+const TITLES = NAV_CONFIG.reduce((acc, item) => {
+  acc[item.path] = <span>{item.icon} {item.label}</span>;
+  return acc;
+}, {});
 
 export default function GlottieApp() {
 const { currentUser, isLoggedIn } = useSelector((state) => state.user);

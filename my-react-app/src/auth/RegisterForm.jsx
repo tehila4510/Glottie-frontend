@@ -40,9 +40,7 @@ const navigate = useNavigate();
     e.preventDefault();
     if (!validate()) return;
 
-    // ❌ לא קוראים ל-registerUser כאן
-    // ✅ מעבירים את הנתונים ל-AuthPage — הוא ימשיך לבחירת רמה ואז ישלח ל-API
-    onNextStep({
+        onNextStep({
       name:     regForm.name,
       email:    regForm.email,
       password: regForm.password,

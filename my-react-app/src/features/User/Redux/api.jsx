@@ -1,4 +1,4 @@
-import { baseApi } from '../../../app/baseApi'; // וודא שהנתיב ל-baseApi שיצרנו נכון
+import { baseApi } from '../../../app/baseApi'; 
 
 export const userApi = baseApi.injectEndpoints({
 

@@ -5,7 +5,7 @@ import userReducer, {
   updateCurrentUser,
   logout,
 } from "../features/User/Redux/userSlice";
-
+import quizReducer from "../features/Quiz/Redux/quizSlice";
 
 import { toast } from 'react-toastify';
 
@@ -40,6 +40,7 @@ export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer, // רדיוסר אחד לכולם
     user: userReducer,
+    quiz: quizReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

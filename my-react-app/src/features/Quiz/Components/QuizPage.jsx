@@ -2,7 +2,15 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { updateCurrentUser } from "../../User/Redux/userSlice"; // וודאי שהנתיב נכון
-import { useLazyGetUserQuery } from '../../User/Redux/api';
+import { useLazyGetUserQuery } from "../../User/Redux/api";
+
+import {
+  startNewQuiz,
+  setNextQuestion,
+  setFeedback,
+  setQuizResult,
+  resetQuiz,
+} from "../Redux/quizSlice";
 
 import {
   useStartSessionMutation,
@@ -20,22 +28,26 @@ import GameOverDialog from "./GameOverDialog";
 import QuestionFactory from "./QuestionFactory";
 
 import "../styles/quizStyles.css";
+
 const MAX_QUESTIONS = 10;
 
 export default function QuizPage({ onClose }) {
   const dispatch = useDispatch();
   const { skillId: paramSkillId } = useParams();
-  const { currentUser } = useSelector((state) => state.user);
 
-  const [phase, setPhase] = useState("loading");
-  const [sessionId, setSessionId] = useState(null);
-  const [question, setQuestion] = useState(null);
+  const { currentUser } = useSelector((state) => state.user);
+  const {
+    phase,
+    sessionId,
+    question,
+    questionCount,
+    correctCount,
+    feedback,
+    sessionResult,
+  } = useSelector((state) => state.quiz);
+
   const [selectedOption, setSelectedOption] = useState(null);
   const [userTypedAnswer, setUserTypedAnswer] = useState("");
-  const [feedback, setFeedback] = useState(null);
-  const [questionCount, setQuestionCount] = useState(0);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [sessionResult, setSessionResult] = useState(null);
   const [isGameOverOpen, setIsGameOverOpen] = useState(false);
 
   const [startSession] = useStartSessionMutation();
@@ -46,60 +58,59 @@ export default function QuizPage({ onClose }) {
   const [getUser] = useLazyGetUserQuery();
 
   const hasInitialized = useRef(false);
+  const sessionIdRef = useRef(sessionId);
 
+  useEffect(() => {
+    sessionIdRef.current = sessionId;
+  }, [sessionId]);
 
-useEffect(() => {
-  const handleBeforeUnload = (e) => {
-    if (phase === "question" || phase === "feedback") {
-      e.preventDefault();
-      e.returnValue = ""; 
-    }
-  };
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (phase === "question" || phase === "feedback") {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
 
-  window.addEventListener("beforeunload", handleBeforeUnload);
-  return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-}, [phase]);
-const finishSession = useCallback(
-  async (sid) => {
-    setPhase("loading");
-    try {
-      const result = await endSession(sid || sessionId).unwrap();
-      const updatedUser = await getUser(currentUser.userId).unwrap();
-      dispatch(updateCurrentUser(updatedUser));
-      setSessionResult(result);
-      setPhase("result");
-    } catch (err) {
-      console.error("Failed to finish session", err);
-      onClose(); 
-    }
-  },
-  [sessionId, endSession, dispatch, onClose, currentUser.userId, getUser] // הוספתי תלויות חסרות
-);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [phase]);
+
+  const finishSession = useCallback(
+    async (sid) => {
+      try {
+        const targetSid = sid || sessionIdRef.current;
+        const result = await endSession(targetSid).unwrap();
+        const updatedUser = await getUser(currentUser.userId).unwrap();
+        dispatch(updateCurrentUser(updatedUser));
+        dispatch(setQuizResult(result));
+      } catch (err) {
+        console.error("Failed to finish session", err);
+        onClose();
+      }
+    },
+    [endSession, dispatch, onClose, currentUser.userId, getUser],
+  );
   const loadNextQuestion = useCallback(
-    async (sid, count) => {
-      setPhase("loading");
-      setFeedback(null);
+    async (sid) => {
       setSelectedOption(null);
       setUserTypedAnswer("");
 
       try {
-        const currentSid = sid || sessionId;
+        const currentSid = sid || sessionIdRef.current;
         const q = await fetchNext({
           sessionId: currentSid,
           skillId: Number(paramSkillId),
         }).unwrap();
 
         if (!q) return finishSession(currentSid);
-
-        setQuestion(q);
-        setQuestionCount(count + 1);
-        setPhase("question");
+        dispatch(setNextQuestion(q));
       } catch (err) {
         console.error("Failed to load next question", err);
-        finishSession(sid || sessionId);
+        finishSession(sid || sessionIdRef.current);
       }
     },
-    [sessionId, paramSkillId, fetchNext, finishSession],
+    [paramSkillId, fetchNext, finishSession, dispatch],
   );
 
   useEffect(() => {
@@ -109,28 +120,29 @@ const finishSession = useCallback(
     const init = async () => {
       try {
         const sid = await startSession().unwrap();
-        setSessionId(sid);
-        await loadNextQuestion(sid, 0);
+        dispatch(startNewQuiz(sid));
+        await loadNextQuestion(sid);
       } catch (err) {
         console.error("Failed to start session", err);
       }
     };
 
     init();
-  }, [startSession, loadNextQuestion]);
+    return () => dispatch(resetQuiz());
+  }, [startSession, loadNextQuestion, dispatch]);
 
-
-
-const handleAttemptClose = () => {
-  if (phase === "question" || phase === "feedback") {
-    const confirmExit = window.confirm("Are you sure you want to leave? All your progress in this quiz will be lost.");
-    if (confirmExit) {
+  const handleAttemptClose = () => {
+    if (phase === "question" || phase === "feedback") {
+      const confirmExit = window.confirm(
+        "Are you sure you want to leave? All your progress in this quiz will be lost.",
+      );
+      if (confirmExit) {
+        onClose();
+      }
+    } else {
       onClose();
     }
-  } else {
-    onClose(); 
-  }
-};
+  };
 
   const handleSubmit = async () => {
     // const mask = question.questionTypeMask;
@@ -154,27 +166,25 @@ const handleAttemptClose = () => {
     //   userAnswerText = selectedOption?.optionText || "";
     //   selectedOptionId = selectedOption?.optionId || selectedOptionId;
     // }
-const userAnswerText = selectedOption ? selectedOption.optionText : userTypedAnswer;
-  const selectedOptionId = selectedOption ? selectedOption.optionId : 0;
+    const userAnswerText = selectedOption
+      ? selectedOption.optionText
+      : userTypedAnswer;
+    const selectedOptionId = selectedOption ? selectedOption.optionId : 0;
     const dto = {
       answerRecordId: question.answerRecordId,
       userId: currentUser.userId,
       questionId: question.questionId,
       sessionId,
-     userAnswerText: userAnswerText, 
-    selectedOptionId: selectedOptionId,
+      userAnswerText: userAnswerText,
+      selectedOptionId: selectedOptionId,
     };
 
     try {
       const review = await submitAnswer({ answerDto: dto }).unwrap();
-      setFeedback(review);
-      setPhase("feedback");
-
-      if (review.isCorrect) {
-        setCorrectCount((c) => c + 1);
-      } else {
+      dispatch(setFeedback(review));
+      if (!review.isCorrect) {
         const result = await loseHeart().unwrap();
-        dispatch(updateCurrentUser({ hearts: result.hearts }));
+        dispatch(updateCurrentUser({ hearts: result.currentHearts }));
         if (!result.hasHearts) setIsGameOverOpen(true);
       }
     } catch (err) {
@@ -183,14 +193,12 @@ const userAnswerText = selectedOption ? selectedOption.optionText : userTypedAns
   };
   const handlePlayAgain = () => {
     hasInitialized.current = false;
-    setSessionId(null);
-    setQuestionCount(0);
-    setCorrectCount(0);
-    setPhase("loading");
+    dispatch(resetQuiz());
   };
-const handleType = useCallback((val) => {
-  setUserTypedAnswer(val);
-}, []);
+  const handleType = useCallback((val) => {
+    setUserTypedAnswer(val);
+  }, []);
+
   if (phase === "result") {
     return (
       <QuizResult

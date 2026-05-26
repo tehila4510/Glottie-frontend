@@ -1,4 +1,3 @@
-import React, { memo, useEffect } from "react"; // הוספת memo ו-useEffect
 import MultipleChoice    from "./types/MultipleChoice";
 import TextEntry         from "./types/TextEntry";
 import ListeningCard     from "./types/ListeningCard";
@@ -10,14 +9,7 @@ import DragAndDropCard   from "./types/DragAndDropCard";
 import MultipleAnswerCard from "./types/MultipleAnswerCard";
 
 
- const QuestionFactory = memo(({ question, ...props }) => {
-  
-  // הדפסה רק כשה-ID של השאלה משתנה
-  useEffect(() => {
-    if (question) {
-      console.log("סוג השאלה שהגיע מהשרת:", question?.title, "המסכה היא:", question?.questionTypeMask);
-    }
-  }, [question?.questionId]);
+ const QuestionFactory =({ question, ...props }) => {
 
   if (!question) return null;
   const mask = question.questionTypeMask;
@@ -38,6 +30,6 @@ import MultipleAnswerCard from "./types/MultipleAnswerCard";
   }
 
   return <MultipleChoice question={question} {...props} />;
-});
+};
 
 export default QuestionFactory;

@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useLoginUserMutation } from '../features/User/Redux/api';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../features/User/Redux/userSlice';
-import { useNavigate } from 'react-router-dom'; // 1. ייבוא ה-Hook לניווט
+import { useNavigate } from 'react-router-dom'; 
 
 export default function LoginTab({ onAuthSuccess, setAlert }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // 2. אתחול הניווט
+  const navigate = useNavigate(); 
   
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [loginUser, { isLoading }] = useLoginUserMutation();
@@ -19,7 +19,7 @@ export default function LoginTab({ onAuthSuccess, setAlert }) {
       return err.data.message;
     }
     if (err?.status === 'FETCH_ERROR') {
-      return "לא ניתן ליצור קשר עם השרת. וודא שהוא מופעל.";
+      return "The server cannot be contacted. Make sure it is running.";
     }
     return "Something went wrong, please try again later.";
   };
@@ -88,7 +88,7 @@ export default function LoginTab({ onAuthSuccess, setAlert }) {
         New to Glottie?{' '}
         <span 
           style={{ color: 'var(--purple)', cursor: 'pointer' }} 
-          onClick={() => navigate('/register')} // 3. שינוי ה-URL במקום קריאה ל-setTab
+          onClick={() => navigate('/register')} 
         >
           Create an account →
         </span>
