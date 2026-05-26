@@ -7,8 +7,13 @@ tagTypes: ['UserSkillProgress', 'Users'],
     baseUrl: 'https://localhost:7185/api',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().user.token;
-      if (token) headers.set('Authorization', `Bearer ${token}`);
-      return headers;
+const isLegalToken = /^[ -~]*$/.test(token);
+
+if (token && isLegalToken) {
+    headers.set('authorization', `Bearer ${token}`);
+}
+  
+   return headers;
     },
   }),
 

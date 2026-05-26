@@ -9,11 +9,18 @@ const getSafeUser = () => {
     return null;
   }
 };
-
 const getSafeToken = () => {
   try {
     const token = localStorage.getItem('token');
     if (!token || token === "undefined") return null;
+
+    const isAscii =  /^[ -~]*$/.test(token);
+    if (!isAscii || token.length < 10) {
+      localStorage.removeItem('token'); 
+      localStorage.removeItem('user'); 
+      return null;
+    }
+
     return token;
   } catch {
     return null;
@@ -38,21 +45,21 @@ const userSlice = createSlice({
   state.token = token ?? null;
   state.isLoggedIn = !!token && !!user;
 
-  if (token) localStorage.setItem('token', token);
-  if (user) localStorage.setItem('user', JSON.stringify(user));
+      // if (token) localStorage.setItem('token', token);
+      // if (user) localStorage.setItem('user', JSON.stringify(user));
 },
 
     updateCurrentUser: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload };
-      localStorage.setItem('user', JSON.stringify(state.currentUser));
+      // localStorage.setItem('user', JSON.stringify(state.currentUser));
     },
 
     logout: (state) => {
       state.currentUser = null;
       state.token = null;
       state.isLoggedIn = false;
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+        // localStorage.removeItem('token');
+      // localStorage.removeItem('user');
     },
 
     

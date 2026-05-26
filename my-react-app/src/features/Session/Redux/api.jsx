@@ -15,28 +15,12 @@ export const sessionApi = createApi({
     getAllSessions: builder.query({
       query: () => '/Session',
       providesTags: ['Session'],
-
-      async onQueryStarted(arg, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
     }),
 
     // GET /api/Session/{id}
     getSessionById: builder.query({
       query: (id) => `/Session/${id}`,
       providesTags: (result, error, id) => [{ type: 'Session', id }],
-
-      async onQueryStarted(id, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
     }),
 
     // POST /api/Session

@@ -1,51 +1,30 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userAnswerApi = createApi({
-  reducerPath: 'userAnswerApi',
-baseQuery: fetchBaseQuery({
-  baseUrl: 'https://localhost:7185/api',
-  prepareHeaders: (headers, { getState }) => {
-    // נניח שהטוקן שמור אצלך ב-state תחת user
-    const token = getState().user.token; 
-    if (token) {
-      headers.set('authorization', `Bearer ${token}`);
-    }
-    return headers;
-  },
-}),
-
-  tagTypes: ['UserAnswer'],
+  reducerPath: "userAnswerApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://localhost:7185/api",
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().user.token;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+  tagTypes: ["UserAnswer"],
 
   endpoints: (builder) => ({
-
     // GET /api/UserAnswer
     getAllUserAnswers: builder.query({
-  query: () => '/UserAnswer/my-answers', 
-  providesTags: ['UserAnswer'],
-
-      async onQueryStarted(arg, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
+      query: () => "/UserAnswer/my-answers",
+      providesTags: ["UserAnswer"],
     }),
-
-    
 
     // GET /api/UserAnswer/{id}
     getUserAnswerById: builder.query({
       query: (id) => `/UserAnswer/${id}`,
-      providesTags: (result, error, id) => [{ type: 'UserAnswer', id }],
-
-      async onQueryStarted(id, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
+      providesTags: (result, error, id) => [{ type: "UserAnswer", id }],
     }),
 
     // POST /api/UserAnswer
@@ -56,23 +35,23 @@ baseQuery: fetchBaseQuery({
           formData.append(key, userAnswer[key]);
         }
         return {
-          url: '/UserAnswer',
-          method: 'POST',
-          body: formData
+          url: "/UserAnswer",
+          method: "POST",
+          body: formData,
         };
       },
 
-      invalidatesTags: ['UserAnswer'],
+      invalidatesTags: ["UserAnswer"],
 
       async onQueryStarted(newUserAnswer, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userAnswerApi.util.updateQueryData(
-            'getAllUserAnswers',
+            "getAllUserAnswers",
             undefined,
             (draft) => {
               draft.push(newUserAnswer);
-            }
-          )
+            },
+          ),
         );
 
         try {
@@ -80,34 +59,36 @@ baseQuery: fetchBaseQuery({
         } catch {
           patchResult.undo();
         }
-      }
+      },
     }),
 
     // PUT /api/UserAnswer/{id}
     updateUserAnswer: builder.mutation({
       query: ({ id, userAnswer }) => ({
         url: `/UserAnswer/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: userAnswer,
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       }),
 
-      invalidatesTags: (result, error, arg) => [{ type: 'UserAnswer', id: arg.id }],
+      invalidatesTags: (result, error, arg) => [
+        { type: "UserAnswer", id: arg.id },
+      ],
 
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userAnswerApi.util.updateQueryData(
-            'getAllUserAnswers',
+            "getAllUserAnswers",
             undefined,
             (draft) => {
-              const index = draft.findIndex(u => u.answerId === arg.id);
+              const index = draft.findIndex((u) => u.answerId === arg.id);
               if (index !== -1) {
                 draft[index] = { ...draft[index], ...arg.userAnswer };
               }
-            }
-          )
+            },
+          ),
         );
 
         try {
@@ -115,25 +96,25 @@ baseQuery: fetchBaseQuery({
         } catch {
           patchResult.undo();
         }
-      }
+      },
     }),
 
-    // DELETE /api/UserAnswer/{id} 
+    // DELETE /api/UserAnswer/{id}
     deleteUserAnswer: builder.mutation({
       query: (id) => ({
         url: `/UserAnswer/${id}`,
-        method: 'DELETE'
+        method: "DELETE",
       }),
 
-      invalidatesTags: ['UserAnswer'],
+      invalidatesTags: ["UserAnswer"],
 
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           userAnswerApi.util.updateQueryData(
-            'getAllUserAnswers',
+            "getAllUserAnswers",
             undefined,
-            (draft) => draft.filter(u => u.answerId !== id)
-          )
+            (draft) => draft.filter((u) => u.answerId !== id),
+          ),
         );
 
         try {
@@ -141,10 +122,9 @@ baseQuery: fetchBaseQuery({
         } catch {
           patchResult.undo();
         }
-      }
+      },
     }),
-
-  })
+  }),
 });
 
 export const {
@@ -152,5 +132,5 @@ export const {
   useGetUserAnswerByIdQuery,
   useAddUserAnswerMutation,
   useUpdateUserAnswerMutation,
-  useDeleteUserAnswerMutation
+  useDeleteUserAnswerMutation,
 } = userAnswerApi;

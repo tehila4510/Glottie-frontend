@@ -15,28 +15,12 @@ export const questionOptionApi = createApi({
     getAllQuestionOptions: builder.query({
       query: () => '/QuestionOption',
       providesTags: ['QuestionOption'],
-
-      async onQueryStarted(arg, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
     }),
 
     // GET /api/QuestionOption/{id} 
     getQuestionOptionById: builder.query({
       query: (id) => `/QuestionOption/${id}`,
       providesTags: (result, error, id) => [{ type: 'QuestionOption', id }],
-
-      async onQueryStarted(id, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
     }),
 
     // POST /api/QuestionOption 

@@ -21,28 +21,12 @@ export const userSkillProgressApi = createApi({
     getAllUserSkillProgress: builder.query({
       query: () => '/UserSkillProgress/my-skill-progress', 
       providesTags: ['UserSkillProgress'],
-
-      async onQueryStarted(arg, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
     }),
 
     // GET /api/UserSkillProgress/{id} 
     getUserSkillProgressById: builder.query({
       query: (id) => `/UserSkillProgress/${id}`,
       providesTags: (result, error, id) => [{ type: 'UserSkillProgress', id }],
-
-      async onQueryStarted(id, { queryFulfilled }) {
-        try {
-          await queryFulfilled;
-        } catch (err) {
-          alert(err);
-        }
-      }
     }),
 
     // POST /api/UserSkillProgress
