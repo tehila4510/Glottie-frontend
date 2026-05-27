@@ -2,6 +2,7 @@
 import { useState } from "react";
  
 export default function MultipleAnswerCard({ question, onSelect, submitted, feedback }) {
+  console.log("Rendering MultipleAnswerCard with question:", question);
   const [checked, setChecked] = useState({});
  
   const toggle = (opt) => {

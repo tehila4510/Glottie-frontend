@@ -5,6 +5,7 @@ import { updateCurrentUser } from "../Redux/userSlice";
 import UserAvatar from "./UserAvatar";
 import level from "../../../../public/level.png";
 import streak from "../../../../public/streak.png";
+import {LEVELS} from "../../../utils/levels"
 import "./ProfileView.css";
 
 export default function ProfileView() {
@@ -69,10 +70,21 @@ export default function ProfileView() {
 
   if (!currentUser) return <div className="loading-state">Loading...</div>;
 
-  const xpPct = Math.min(
-    100,
-    Math.round(((currentUser.xp || 0) / (currentUser.maxXp || 100)) * 100),
-  );
+const totalXp = currentUser.xp || 0;
+const currentLevel = currentUser.currentLevel || 1;
+const currentLevelInfo = LEVELS[currentLevel];
+const nextLevelInfo = LEVELS[currentLevel + 1] || currentLevelInfo;
+
+ const xpInThisLevelRange = totalXp - currentLevelInfo.minXp;
+const xpRequiredForNextLevel = nextLevelInfo.minXp - currentLevelInfo.minXp;
+  const isMaxLevel = currentLevel >= 6;
+const xpPct = isMaxLevel 
+  ? 100 
+  : Math.min(100, Math.floor((xpInThisLevelRange / xpRequiredForNextLevel) * 100));
+
+const xpToNextLevel = isMaxLevel 
+  ? 0 
+  : nextLevelInfo.minXp - totalXp;
 
   return (
     <div className="page">
@@ -120,21 +132,18 @@ export default function ProfileView() {
       </div>
 
       <div className="profile-stats-grid">
-        {[
-          { val: currentUser.currentLevel || 1, lbl: "Level" },
-          { val: currentUser.streak || 0, lbl: "Streak" },
-          { val: currentUser.xp || 0, lbl: "Total XP" },
-          {
-            val: (currentUser.maxXp || 100) - (currentUser.xp || 0),
-            lbl: "Next Level",
-          },
-        ].map((s) => (
-          <div className="stat-card" key={s.lbl}>
-            <div className="val">{s.val}</div>
-            <div className="lbl">{s.lbl}</div>
-          </div>
-        ))}
-      </div>
+  {[
+    { val: currentLevel, lbl: "Level" },
+    { val: currentUser.streak || 0, lbl: "Streak" },
+    { val: totalXp, lbl: "Total XP" },
+    { val: xpToNextLevel, lbl: "Next Level" },
+  ].map((s) => (
+    <div className="stat-card" key={s.lbl}>
+      <div className="val">{s.val}</div>
+      <div className="lbl">{s.lbl}</div>
+    </div>
+  ))}
+</div>
 
       {/* XP PROGRESS */}
       <div className="xp-progress-wrap">

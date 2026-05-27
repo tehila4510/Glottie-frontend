@@ -13,23 +13,22 @@ import LevelPicker from "./LevelPicker";
 import logo from "../../public/logo.png";
 
 import "./auth.css";
+import Landing from "../app/Landing";
 
 export default function AuthPage({ onAuthSuccess }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [updateUser] = useUpdateUserMutation();
-  // בתוך AuthPage
   const [pendingAuth, setPendingAuth] = useState(null);
-  // const currentUser = useSelector((state) => state.user.user);
-  // const currentToken = useSelector((state) => state.user.token);
+  
 
   const isRegisterPath = location.pathname === "/register";
-  const [step, setStep] = useState("form");
+  //const [step, setStep] = useState("form");
   const [alert, setAlert] = useState(null);
 
   const [registerUser, { isLoading: registering }] = useRegisterUserMutation();
-  // const [updateUser] = useUpdateUserMutation();
+  const [step, setStep] = useState("landing");
 
   useEffect(() => {
     setAlert(null);
@@ -50,7 +49,7 @@ export default function AuthPage({ onAuthSuccess }) {
       dataToSend.append("Name", formData.name);
       dataToSend.append("Email", formData.email);
       dataToSend.append("Password", formData.password);
-      if (formData.file) dataToSend.append("AvatarUrl", formData.AvatarUrl);
+      if (formData.file) dataToSend.append("file", formData.file);
 
       const result = await registerUser(dataToSend).unwrap();
 
@@ -113,6 +112,16 @@ export default function AuthPage({ onAuthSuccess }) {
   return (
     <div className="auth-bg">
       <div className="auth-card">
+
+      {step === "landing" && (
+          <Landing 
+            onGetStarted={() => setStep("form")} 
+            onLogin={() => {
+              navigate("/login"); 
+              setStep("form");
+            }} 
+          />
+        )}
         <div className="auth-logo">
           <span className="auth-owl">
             {" "}

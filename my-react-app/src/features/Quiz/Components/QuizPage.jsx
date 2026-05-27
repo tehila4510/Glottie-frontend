@@ -59,8 +59,34 @@ export default function QuizPage({ onClose }) {
 
   const hasInitialized = useRef(false);
   const sessionIdRef = useRef(sessionId);
+  
+  
+  const speak = useCallback((text) => {
+  if (!text) return;    
+  
+  window.speechSynthesis.cancel();
 
-  useEffect(() => {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.rate = 0.9; 
+
+  const voices = window.speechSynthesis.getVoices();
+  const naturalVoice = voices.find(v => 
+    v.name.includes("Google US English") || v.name.includes("Samantha") || v.name.includes("Microsoft Aria")
+  );
+  
+  if (naturalVoice) utterance.voice = naturalVoice;
+
+  window.speechSynthesis.speak(utterance);
+}, []);
+
+useEffect(() => {
+  if (phase === "question" && question?.questionText) {
+    speak(question.questionText);
+  }
+}, [question, phase]); 
+
+useEffect(() => {
     sessionIdRef.current = sessionId;
   }, [sessionId]);
 
@@ -234,6 +260,7 @@ export default function QuizPage({ onClose }) {
             onType={handleType}
             submitted={phase === "feedback"}
             feedback={feedback}
+            onSpeak={speak}
           />
 
           {phase === "question" && (

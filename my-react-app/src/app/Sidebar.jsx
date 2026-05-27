@@ -5,6 +5,7 @@ import {NavLink,useNavigate} from 'react-router-dom';
 
 import logoutIcon from "../../public/logout.png";
 import { logout } from '../features/User/Redux/userSlice';
+import {LEVELS} from "../utils/levels";
 
 import { NAV_CONFIG } from '../utils/navConfig';
 
@@ -12,12 +13,20 @@ import { NAV_CONFIG } from '../utils/navConfig';
 export default function Sidebar({ errorCount }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state) => state.user);
+ const { currentUser } = useSelector((state) => state.user);
+  const totalXp = currentUser?.xp || 0;
+  const currentLevel = currentUser?.currentLevel || 1;
 
-  const xp    = currentUser?.xp       || 0;
-  const maxXp = currentUser?.maxXp    || 100;
-  const xpPct = Math.min((xp / maxXp) * 100, 100);
-
+  // חישוב המרחק לרמה הבאה
+  const currentLevelInfo = LEVELS[currentLevel] || LEVELS[1];
+  const nextLevelInfo = LEVELS[currentLevel + 1] || currentLevelInfo;
+  
+  const xpInThisLevel = totalXp - currentLevelInfo.minXp;
+  const xpRequiredForNextLevel = nextLevelInfo.minXp - currentLevelInfo.minXp;
+  
+  // חישוב האחוז (מוגן ממקסימום רמה)
+  const isMax = currentLevel >= 6;
+  const xpPct = isMax ? 100 : Math.min(100, (xpInThisLevel / xpRequiredForNextLevel) * 100);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -65,17 +74,29 @@ return (
               {currentUser?.firstName} {currentUser?.lastName}
             </div>
             <div className="profile-level">
-              ⭐ Level {currentUser?.currentLevel || 1}
+              ⭐ Level {currentLevel}
             </div>
           </div>
         </div>
-        <div className="xp-mini">
-          <div className="xp-bar-bg">
-            <div className="xp-bar-fill" style={{ width: `${xpPct}%` }} />
-          </div>
-          <div className="xp-label">{xp} / {maxXp} XP</div>
-        </div>
+
+      <div className="xp-mini">
+            <div className="xp-bar-bg">
+               <div className="xp-bar-fill" style={{ width: `${xpPct}%` }} />
+            </div>
+            <div className="xp-label">
+              {isMax ? "Max Level" : `${xpInThisLevel} / ${xpRequiredForNextLevel} XP`}
+            </div>
+         </div>
+        
+        
       </NavLink>
+
+
+      
     </aside>
   );
+
+
+  
 }
+

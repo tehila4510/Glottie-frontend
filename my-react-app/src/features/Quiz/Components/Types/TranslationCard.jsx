@@ -1,4 +1,5 @@
 export default function TranslationCard({ question, selectedOption, onSelect, submitted }) {
+  console.log("Rendering TranslationCard with question:", question);
   return (
     <div className="quiz-card translation-mode">
       <div className="hebrew-prompt" dir="rtl">

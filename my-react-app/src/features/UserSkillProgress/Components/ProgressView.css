@@ -43,27 +43,92 @@
 }
 
 /* ─── Weekly XP ───────────────────────────────────────────── */
+
 .bar-chart {
   display: flex;
+  justify-content: space-around;
   align-items: flex-end;
-  gap: 8px;
-  height: 90px;
+  height: 160px; 
+  padding-top: 50px; 
+  position: relative;
+  gap: 10px;
 }
+
 .bar-col {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  flex: 1;
+  position: relative;
   height: 100%;
   justify-content: flex-end;
 }
-.bar-col span { font-size: 11px; color: #94a3b8; flex-shrink: 0; }
+
 .bar {
-  width: 100%;
-  background: linear-gradient(180deg, #7B5EFF, #a78bfa);
-  border-radius: 4px 4px 0 0;
-  min-height: 4px;
+  width: 35px;
+  background: linear-gradient(180deg, #9D85FF 0%, #7B5EFF 100%);
+  border-radius: 6px 6px 2px 2px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 4px; 
+  position: relative;
+  z-index: 1;
+}
+
+.bar:hover {
+  filter: brightness(1.1);
+  transform: scaleX(1.05);
+}
+
+.day-label {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 100%; 
+  left: 50%;
+  transform: translate(-50%, -10px);
+  
+  background: white;
+  color: #7B5EFF;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(123, 94, 255, 0.2);
+  border: 1px solid #eee;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+}
+
+.bar-col:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, -15px);
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+
+/* לוודא שהכרטיס לא חותך את הטולטיפ */
+.card.span-2 {
+  overflow: visible !important;
 }
 
 /* ─── Performance Rings ───────────────────────────────────── */

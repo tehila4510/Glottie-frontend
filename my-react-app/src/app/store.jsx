@@ -26,12 +26,29 @@ persistenceMiddleware.startListening({
     }
   },
 });
-
 const rtkQueryErrorLogger = (api) => (next) => (action) => {
   if (action.type.endsWith('/rejected')) {
-    const errorData = action.payload?.data;
-    
-    const message = errorData?.message || errorData?.title || "An unexpected error occurred";    
+    const error = action.payload;
+
+    console.log("Error Payload Details:", error); // זה יעזור לך לראות ב-Console מה באמת מגיע
+
+    let message = "An unexpected error occurred";
+
+    if (error) {
+      // 1. אם מגיע אובייקט JSON תקין מהשרת
+      if (error.data && typeof error.data === 'object') {
+        message = error.data.message || error.data.title || JSON.stringify(error.data);
+      } 
+      // 2. אם מגיע טקסט גולמי (כמו במקרה שלך)
+      else if (typeof error.data === 'string') {
+        message = error.data;
+      }
+      // 3. אם ה-data ריק אבל יש status text
+      else if (error.statusText) {
+        message = error.statusText;
+      }
+    }
+
     toast.error(message);
   }
   return next(action);

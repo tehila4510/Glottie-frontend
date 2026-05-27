@@ -16,7 +16,7 @@ export default function RegisterTab({ onNextStep }) {
   const [errors, setErrors]   = useState({});
   const [file, setFile]       = useState(null);
   const [preview, setPreview] = useState(null);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const validate = () => {
     const e = {};
     if (!regForm.name.trim()) e.name = 'Required';
@@ -47,6 +47,7 @@ const navigate = useNavigate();
       file,
     });
   };
+  
 
   const handleImageChange = (e) => {
     const f = e.target.files[0];

@@ -80,13 +80,6 @@ export default function ProgressView() {
   if (loadingSkills || loadingProgress)
     return <div className="loading">Loading...</div>;
 
-  const avgAccuracy = skillsWithStatus.length
-    ? Math.round(
-        skillsWithStatus.reduce((s, p) => s + p.accuracy, 0) /
-          skillsWithStatus.length,
-      )
-    : 0;
-
   const avgCompletion = skillsWithStatus.length
     ? Math.round(
         skillsWithStatus.reduce((s, p) => s + p.progressPercent, 0) /
@@ -94,19 +87,21 @@ export default function ProgressView() {
       )
     : 0;
 
-  //const weeklyXp = skillsWithStatus.length > 0 ? skillsWithStatus[0].weeklyXp : [];
-  //const maxXp = Math.max(...weeklyXp, 1);
-
-  const weeklyXp = skillsWithStatus.reduce((acc, p) => {
-    (p.weeklyXp || []).forEach((xp, i) => {
-      acc[i] = (acc[i] || 0) + xp;
-    });
-    return acc;
-  }, Array(7).fill(0));
-
-  const maxXp = Math.max(...weeklyXp, 1);
+  const avgAccuracy = skillsWithStatus.length
+    ? Math.round(
+        skillsWithStatus.reduce((s, p) => s + p.accuracy, 0) /
+          skillsWithStatus.length,
+      )
+    : 0;
 
   const heatmap = buildHeatmap(skillsWithStatus);
+
+  const weeklyXp =
+    skillsWithStatus.length > 0
+      ? skillsWithStatus[0].weeklyXp
+      : Array(7).fill(0);
+
+  const maxXp = Math.max(...weeklyXp, 1);
 
   return (
     <div className="bento-dashboard">
@@ -120,6 +115,8 @@ export default function ProgressView() {
           <div className="bar-chart">
             {Array.from({ length: 7 }).map((_, i) => (
               <div key={i} className="bar-col">
+                <span className="tooltip-text">{weeklyXp[i] || 0} XP</span>
+
                 <div
                   className="bar"
                   style={{ height: `${((weeklyXp[i] || 0) / maxXp) * 100}%` }}
