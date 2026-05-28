@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-// קומפוננטות
+
 import Sidebar       from './Sidebar';
 import UserAvatar from '../features/User/Components/UserAvatar';
 
-// סגנונות
+
 import '../styles/variables.css';
 import AppRouter from './router';
 import { NAV_CONFIG } from '../utils/navConfig';

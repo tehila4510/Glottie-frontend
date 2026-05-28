@@ -137,7 +137,6 @@ export default function HomeView() {
               </div>
               <div className="skill-name-home">{skill.name}</div>
               <div className="skill-progress-text-home">
-                {/* שים לב: ב-Selector קראנו לזה progressPercent, וודא שזה תואם */}
                 {skill.unlocked
                   ? `${skill.progressPercent}%`
                   : `Level ${skill.recommendedLevelId} required`}

@@ -15,5 +15,4 @@ export async function askChatTeacher(message, history, token) {
   }
 
   return await res.json(); 
-  // מחזיר { reply, updatedHistory }
 }

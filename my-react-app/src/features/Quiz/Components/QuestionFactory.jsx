@@ -12,7 +12,6 @@ const QuestionFactory = ({ question, onSpeak, ...props }) => {
   if (!question) return null;
   const mask = question.questionTypeMask;
 
-  // פונקציה פנימית לבחירת הקומפוננטה
   const getComponent = () => {
     if (mask & 2048) return <PronunciationCard question={question} {...props} />;
     if (mask & 131072) return <TranslationCard question={question} {...props} />;

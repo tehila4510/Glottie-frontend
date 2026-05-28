@@ -35,15 +35,12 @@ const rtkQueryErrorLogger = (api) => (next) => (action) => {
     let message = "An unexpected error occurred";
 
     if (error) {
-      // 1. אם מגיע אובייקט JSON תקין מהשרת
       if (error.data && typeof error.data === 'object') {
         message = error.data.message || error.data.title || JSON.stringify(error.data);
       } 
-      // 2. אם מגיע טקסט גולמי (כמו במקרה שלך)
       else if (typeof error.data === 'string') {
         message = error.data;
       }
-      // 3. אם ה-data ריק אבל יש status text
       else if (error.statusText) {
         message = error.statusText;
       }
@@ -55,7 +52,7 @@ const rtkQueryErrorLogger = (api) => (next) => (action) => {
 };
 export const store = configureStore({
   reducer: {
-    [baseApi.reducerPath]: baseApi.reducer, // רדיוסר אחד לכולם
+    [baseApi.reducerPath]: baseApi.reducer,
     user: userReducer,
     quiz: quizReducer,
   },
@@ -63,7 +60,7 @@ export const store = configureStore({
     getDefaultMiddleware()
       .prepend(persistenceMiddleware.middleware)
       .concat(
-        baseApi.middleware, // Middleware אחד לכולם
+        baseApi.middleware,
         rtkQueryErrorLogger 
       ),
 });

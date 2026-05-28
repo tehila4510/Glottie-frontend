@@ -9,7 +9,6 @@ export default function MultipleAnswerCard({ question, onSelect, submitted, feed
     if (submitted) return;
     const next = { ...checked, [opt.optionId]: !checked[opt.optionId] };
     setChecked(next);
-    // שולחים את כל האפשרויות הנבחרות כטקסט מחובר
     const selectedTexts = question.options
       .filter((o) => next[o.optionId])
       .map((o) => o.optionText)
@@ -28,7 +27,7 @@ export default function MultipleAnswerCard({ question, onSelect, submitted, feed
           if (submitted) {
             if (isChecked && opt.isCorrect)  statusClass = "correct";
             if (isChecked && !opt.isCorrect) statusClass = "wrong";
-            if (!isChecked && opt.isCorrect) statusClass = "correct"; // הראה מה היה נכון
+            if (!isChecked && opt.isCorrect) statusClass = "correct"; 
           } else if (isChecked) {
             statusClass = "selected";
           }

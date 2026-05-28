@@ -94,7 +94,7 @@
   font-weight: 700;
   color: var(--g-text);
   transition: all 0.2s ease;
-  cursor: pointer; /* מצביע יד */
+  cursor: pointer;
 }
 .stat-chip:hover {
   background: #E2E8F0;
@@ -200,7 +200,7 @@
   border-radius: 14px;
   font-size: 16px;
   font-weight: 700;
-  cursor: pointer; /* מצביע יד */
+  cursor: pointer; 
   transition: all 0.2s;
   font-family: 'Nunito', sans-serif;
 }

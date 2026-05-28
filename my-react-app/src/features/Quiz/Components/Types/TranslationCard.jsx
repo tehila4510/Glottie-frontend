@@ -5,7 +5,7 @@ export default function TranslationCard({ question, selectedOption, onSelect, su
       <div className="hebrew-prompt" dir="rtl">
         {question.questionText}
       </div>
-      <div className="translation-divider">מתרגמים לראש...</div>
+      <div className="translation-divider">מתרגמים ...</div>
       <div className="options-grid">
         {question.options.map(opt => (
           <button 

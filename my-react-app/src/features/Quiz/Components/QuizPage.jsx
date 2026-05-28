@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { updateCurrentUser } from "../../User/Redux/userSlice"; // וודאי שהנתיב נכון
+import { updateCurrentUser } from "../../User/Redux/userSlice"; 
 import { useLazyGetUserQuery } from "../../User/Redux/api";
 
 import {
@@ -171,27 +171,6 @@ useEffect(() => {
   };
 
   const handleSubmit = async () => {
-    // const mask = question.questionTypeMask;
-    // const isText = mask & 2 || mask & 512;
-    // const isOrdering = mask & 8;
-
-    // let userAnswerText = "";
-    // let selectedOptionId = question.options?.[0]?.optionId || 0;
-
-    // // let userAnswerText = isText
-    // //   ? userTypedAnswer
-    // //   : selectedOption?.optionText || "";
-    // // let selectedOptionId = isOrdering ? 999 : selectedOption?.optionId || 0;
-
-    // if (isText) {
-    //   userAnswerText = userTypedAnswer;
-    // } else if (isOrdering) {
-    //   userAnswerText = selectedOption?.optionText || "";
-    //   selectedOptionId = 999;
-    // } else {
-    //   userAnswerText = selectedOption?.optionText || "";
-    //   selectedOptionId = selectedOption?.optionId || selectedOptionId;
-    // }
     const userAnswerText = selectedOption
       ? selectedOption.optionText
       : userTypedAnswer;

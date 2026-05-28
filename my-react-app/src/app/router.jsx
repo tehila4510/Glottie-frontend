@@ -8,7 +8,7 @@ import ChatView from '../features/Chat/Components/ChatView';
 import HomeView from '../Pages/HomeView';
 import QuizPage from '../features/Quiz/Components/QuizPage';
 import AuthPage from '../auth/AuthPage.jsx'; 
-// ייבוא עמוד האותנטיקציה הראשי שלך
+
 import commingSoon from "../../public/comming soon.png";
 import { useParams, useNavigate } from 'react-router-dom';
 

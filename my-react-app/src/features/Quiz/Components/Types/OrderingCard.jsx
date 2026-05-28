@@ -3,15 +3,12 @@ import "./types.css";
 
 export default function OrderingCard({ question, onSelect, submitted }) {
   console.log("Rendering OrderingCard with question:", question);``
-  // פירוק המילים פעם אחת
   const initialWords = question.options[0].optionText.split(" / ");
   
-  // יצירת מערך אובייקטים עם מזהה ייחודי כדי למנוע בלבול ב-indices
   const allWords = initialWords.map((word, index) => ({ word, id: index }));
 
   const [selectedWords, setSelectedWords] = useState([]);
 
-  // RESET: בכל פעם שהשאלה (question) משתנה, ננקה את הבחירות
   useEffect(() => {
     setSelectedWords([]);
   }, [question]);
@@ -30,7 +27,6 @@ export default function OrderingCard({ question, onSelect, submitted }) {
     onSelect({ optionText: newSelection.map(s => s.word).join(" "), optionId: 999 });
   };
 
-  // מילים שטרם נבחרו: מסננים מתוך כל המילים את אלו שכבר נמצאות ב-selectedWords
   const remainingWords = allWords.filter(
     (w) => !selectedWords.some((s) => s.id === w.id)
   );

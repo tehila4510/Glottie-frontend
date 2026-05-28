@@ -22,7 +22,7 @@ export default function LessonContainer({ skill, onBack }) {
       {screen === 'quiz' && (
         <QuizPage
           skill={skill}
-          step={selectedStep} // אם תרצי להשתמש בעתיד
+          step={selectedStep} 
           onClose={() => setScreen('path')}
         />
       )}

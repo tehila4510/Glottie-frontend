@@ -3,8 +3,7 @@ export default function AlertMessage({ alert }) {
 
   return (
     <div className={`alert ${alert.type}`}>
-      {/* אם ההודעה היא אובייקט, נציג מחרוזת ריקה או הודעה כללית */}
-      {typeof alert.msg === 'string' ? alert.msg : "משהו השתבש..."}
+      {typeof alert.msg === 'string' ? alert.msg : "something went wrong..."}
     </div>
   );
 }

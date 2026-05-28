@@ -77,8 +77,8 @@ const BASE_URL = "https://localhost:7185/api";
 export default function ChatView() {
   const { currentUser, token } = useSelector((state) => state.user);
 
-  const [messages, setMessages] = useState([]); // { role, text, time }
-  const [history, setHistory] = useState([]); // { role, text } — לשליחה לשרת
+  const [messages, setMessages] = useState([]);
+  const [history, setHistory] = useState([]); 
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

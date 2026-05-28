@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   sessionId: null,
-  phase: 'idle', // 'idle' | 'loading' | 'question' | 'feedback' | 'result'
+  phase: 'idle',
   question: null,
   questionCount: 0,
   correctCount: 0,

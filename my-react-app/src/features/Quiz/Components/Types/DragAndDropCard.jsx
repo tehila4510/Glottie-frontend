@@ -1,6 +1,4 @@
-// הנחה: options[0].optionText = "word1 / word2 / word3" (כמו Ordering)
-// המשתמש גורר מילים לאזור ה-drop ומסדר אותן
- 
+
 import { useState } from "react";
  
 export default function DragAndDropCard({ question, onSelect, submitted }) {
@@ -38,7 +36,6 @@ export default function DragAndDropCard({ question, onSelect, submitted }) {
       <div className="skill-badge">🔀 Drag & Drop</div>
       <div className="question-text">{question.questionText}</div>
  
-      {/* אזור ה-drop - המילים שנבחרו */}
       <div className="drop-zone">
         {arranged.length === 0 && (
           <span className="drop-placeholder">Tap words to build your answer...</span>
@@ -50,7 +47,6 @@ export default function DragAndDropCard({ question, onSelect, submitted }) {
         ))}
       </div>
  
-      {/* המילים שנותרו */}
       <div className="words-container">
         {remaining.map((word, i) => (
           <button key={i} className="word-bubble" onClick={() => addWord(word, i)}>

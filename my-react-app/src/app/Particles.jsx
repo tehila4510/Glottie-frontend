@@ -9,7 +9,6 @@ const INITIAL_PARTICLES = Array.from({ length: 14 }, (_, i) => ({
 }));
 
 export default function Particles() {
-  // 2. הקומפוננטה רק משתמשת בנתונים הסטטיים
   return (
     <div className="particles">
       {INITIAL_PARTICLES.map((p) => (

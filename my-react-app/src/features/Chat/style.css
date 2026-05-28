@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
   :root {
-    --primary: #6366f1; /* סגול אינדיגו מודרני */
+    --primary: #6366f1; 
     --primary-light: #eef2ff;
     --bg-main: #f8fafc;
     --text-main: #1e293b;

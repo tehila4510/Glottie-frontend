@@ -23,7 +23,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: baseQueryWithReauth, // משתמשים במעטפת החדשה
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Question', 'Session', 'UserAnswer', 'UserSkillProgress', 'Users', 'Quiz', 'Skill', 'Option'],
   endpoints: () => ({}),
 });
