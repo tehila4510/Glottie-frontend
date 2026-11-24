@@ -1,17 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./types.css";
 
 export default function OrderingCard({ question, onSelect, submitted }) {
-  console.log("Rendering OrderingCard with question:", question);``
   const initialWords = question.options[0].optionText.split(" / ");
   
   const allWords = initialWords.map((word, index) => ({ word, id: index }));
 
   const [selectedWords, setSelectedWords] = useState([]);
-
-  useEffect(() => {
-    setSelectedWords([]);
-  }, [question]);
 
   const handleWordClick = (clickedWord) => {
     if (submitted) return;

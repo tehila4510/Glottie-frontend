@@ -1,5 +1,4 @@
 export default function TextEntry({ question, userTypedAnswer, onType, feedback, submitted }) {
-  console.log("Rendering TextEntry with question:", question);
   return (
     <div className="quiz-card text-mode">
       <div className="question-text">{question.questionText}</div>

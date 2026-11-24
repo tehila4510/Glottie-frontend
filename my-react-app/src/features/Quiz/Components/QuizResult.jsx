@@ -40,13 +40,15 @@ function ScoreRing({ score }) {
 
 
 function Confetti() {
-  const dots = Array.from({ length: 20 }, (_, i) => ({
-    id: i,
-    left:  `${Math.random() * 100}%`,
-    color: ['#7B5EFF','#3B8FFF','#FFB800','#22C67A','#FF5C7A','#FF8C42'][i % 6],
-    delay: `${Math.random() * 1}s`,
-    dur:   `${1.5 + Math.random() * 1.5}s`,
-  }));
+  const [dots] = useState(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      left:  `${Math.random() * 100}%`,
+      color: ['#7B5EFF','#3B8FFF','#FFB800','#22C67A','#FF5C7A','#FF8C42'][i % 6],
+      delay: `${Math.random() * 1}s`,
+      dur:   `${1.5 + Math.random() * 1.5}s`,
+    }))
+  );
   return (
     <>
       {dots.map((d) => (

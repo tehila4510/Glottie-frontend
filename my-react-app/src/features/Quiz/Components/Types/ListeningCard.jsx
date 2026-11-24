@@ -1,5 +1,4 @@
 export default function ListeningCard({ question, selectedOption, onSelect, submitted }) {
-  console.log("Rendering ListeningCard with question:", question);
   return (
     <div className="quiz-card listening-mode">
       <div className="skill-badge">🎧 {question.Title}</div>

@@ -12,13 +12,9 @@ export default function ProfileView() {
   const dispatch = useDispatch();
   const avatarRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
-  const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const [profileForm, setProfileForm] = useState({ name: "", email: "" });
-  const [passForm, setPassForm] = useState({
-    oldPassword: "",
-    newPassword: "",
-  });
   const [saved, setSaved] = useState(false);
   const [avatarUploading, setAvatarUploading] = useState(false);
 

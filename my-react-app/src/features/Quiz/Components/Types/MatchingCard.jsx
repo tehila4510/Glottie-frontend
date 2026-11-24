@@ -1,5 +1,4 @@
 export default function MatchingCard({ question, selectedOption, onSelect, submitted, feedback }) {
-  console.log("Rendering MatchingCard with question:", question);
   return (
     <div className="quiz-card matching-mode">
       <div className="skill-badge">🔗 {question.Title}</div>

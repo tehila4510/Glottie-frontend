@@ -2,7 +2,6 @@
 import { useState } from "react";
  
 export default function DragAndDropCard({ question, onSelect, submitted }) {
-    console.log("Rendering DragAndDropCard with question:", question);
   const words = question.options[0]?.optionText.split(" / ") ?? [];
   const [arranged, setArranged] = useState([]);
   const [remaining, setRemaining] = useState([...words]);

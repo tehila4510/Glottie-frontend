@@ -1,5 +1,4 @@
 export default function PronunciationCard({ question, submitted }) {
-  console.log("Rendering PronunciationCard with question:", question);
   return (
     <div className="quiz-card speech-mode">
       <div className="target-word">"{question.questionText}"</div>

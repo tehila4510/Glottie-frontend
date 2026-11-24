@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import MultipleChoice from "./Types/MultipleChoice";
 import TextEntry from "./Types/TextEntry";
 import ListeningCard from "./Types/ListeningCard";
@@ -41,7 +42,8 @@ const QuestionFactory = ({ question, onSpeak, ...props }) => {
         </button>
       </div>
 
-      {getComponent()}
+      {/* key remounts the card for every new question, which resets its local state */}
+      <Fragment key={question.questionId}>{getComponent()}</Fragment>
     </>
   );
 };

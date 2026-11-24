@@ -84,7 +84,7 @@ useEffect(() => {
   if (phase === "question" && question?.questionText) {
     speak(question.questionText);
   }
-}, [question, phase]); 
+}, [question, phase, speak]); 
 
 useEffect(() => {
     sessionIdRef.current = sessionId;

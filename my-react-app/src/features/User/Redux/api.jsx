@@ -7,11 +7,6 @@ export const userApi = baseApi.injectEndpoints({
     // ---------- REGISTER ----------
     registerUser: builder.mutation({
   query: (newUser) => {
-    console.log("FormData entries:");
-    for (let pair of newUser.entries()) {
-      console.log(pair[0], pair[1]);
-    }
-
     return {
       url: "/User/register",
       method: "POST",

@@ -1,7 +1,6 @@
 const LETTERS = ['A', 'B', 'C', 'D'];
 
 export default function MultipleChoice({ question, selectedOption, onSelect, feedback, submitted }) {
-  console.log("Rendering MultipleChoice with question:", question);
   return (
     <div className="quiz-card">
       <div className="question-text">{question.questionText}</div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -30,10 +30,13 @@ export default function AuthPage({ onAuthSuccess }) {
   const [registerUser, { isLoading: registering }] = useRegisterUserMutation();
   const [step, setStep] = useState("landing");
 
-  useEffect(() => {
+  // Reset the form state whenever the route changes (including the first render).
+  const [syncedPath, setSyncedPath] = useState(null);
+  if (syncedPath !== location.pathname) {
+    setSyncedPath(location.pathname);
     setAlert(null);
     setStep("form");
-  }, [location.pathname]);
+  }
 
   const getErrorMessage = (err) => {
     if (err?.data?.errors)

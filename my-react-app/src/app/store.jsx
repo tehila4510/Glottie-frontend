@@ -26,11 +26,10 @@ persistenceMiddleware.startListening({
     }
   },
 });
-const rtkQueryErrorLogger = (api) => (next) => (action) => {
+const rtkQueryErrorLogger = () => (next) => (action) => {
   if (action.type.endsWith('/rejected')) {
     const error = action.payload;
 
-    console.log("Error Payload Details:", error); // זה יעזור לך לראות ב-Console מה באמת מגיע
 
     let message = "An unexpected error occurred";
 
