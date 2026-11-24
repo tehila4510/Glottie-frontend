@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useUpdateUserMutation } from "../Redux/api";
 import { updateCurrentUser } from "../Redux/userSlice";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "./userAvatar";
 import level from "../../../../public/level.png";
 import streak from "../../../../public/streak.png";
 import {LEVELS} from "../../../utils/levels"

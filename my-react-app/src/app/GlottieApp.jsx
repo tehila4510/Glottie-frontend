@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import Sidebar       from './Sidebar';
-import UserAvatar from '../features/User/Components/UserAvatar';
+import UserAvatar from '../features/User/Components/userAvatar';
 
 
 import '../styles/variables.css';

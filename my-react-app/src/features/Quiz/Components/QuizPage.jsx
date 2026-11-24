@@ -10,7 +10,7 @@ import {
   setFeedback,
   setQuizResult,
   resetQuiz,
-} from "../Redux/quizSlice";
+} from "../Redux/QuizSlice";
 
 import {
   useStartSessionMutation,

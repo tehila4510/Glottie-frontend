@@ -1,12 +1,12 @@
-import MultipleChoice from "./types/MultipleChoice";
-import TextEntry from "./types/TextEntry";
-import ListeningCard from "./types/ListeningCard";
-import OrderingCard from "./types/OrderingCard";
-import TranslationCard from "./types/TranslationCard";
-import PronunciationCard from "./types/PronunciationCard";
-import MatchingCard from "./types/MatchingCard";
-import DragAndDropCard from "./types/DragAndDropCard";
-import MultipleAnswerCard from "./types/MultipleAnswerCard";
+import MultipleChoice from "./Types/MultipleChoice";
+import TextEntry from "./Types/TextEntry";
+import ListeningCard from "./Types/ListeningCard";
+import OrderingCard from "./Types/OrderingCard";
+import TranslationCard from "./Types/TranslationCard";
+import PronunciationCard from "./Types/PronunciationCard";
+import MatchingCard from "./Types/MatchingCard";
+import DragAndDropCard from "./Types/DragAndDropCard";
+import MultipleAnswerCard from "./Types/MultipleAnswerCard";
 
 const QuestionFactory = ({ question, onSpeak, ...props }) => {
   if (!question) return null;

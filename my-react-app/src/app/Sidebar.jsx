@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import UserAvatar from '../features/User/Components/UserAvatar';
+import UserAvatar from '../features/User/Components/userAvatar';
 import logo from "../../public/logo2.png"
 import {NavLink,useNavigate} from 'react-router-dom';
 

@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { askChatTeacher } from "../Redux/api";
 import teacherAI from "../../../../public/teacherAI.png";
-import teacherAI2 from "../../../../public/teacherAI2.PNG";
-import teacherAI3 from "../../../../public/teacherAI3.PNG";
-import UserAvatar from "../../User/Components/UserAvatar.jsx";
+import teacherAI2 from "../../../../public/teacherAI2.png";
+import teacherAI3 from "../../../../public/teacherAI3.png";
+import UserAvatar from "../../User/Components/userAvatar.jsx";
 import "../style.css";
 
 // ─── SUGGESTIONS ──────────────────────────────────────────────────────────────
@@ -72,7 +72,6 @@ function TypingIndicator() {
 
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
-const BASE_URL = "https://localhost:7185/api";
 
 export default function ChatView() {
   const { currentUser, token } = useSelector((state) => state.user);

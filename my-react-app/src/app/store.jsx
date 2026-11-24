@@ -5,7 +5,7 @@ import userReducer, {
   updateCurrentUser,
   logout,
 } from "../features/User/Redux/userSlice";
-import quizReducer from "../features/Quiz/Redux/quizSlice";
+import quizReducer from "../features/Quiz/Redux/QuizSlice";
 
 import { toast } from 'react-toastify';
 
