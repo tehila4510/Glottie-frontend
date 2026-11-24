@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
+import { FILES_BASE_URL } from "../../../app/config";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -15,7 +16,7 @@ export default function UserAvatar({ size = 40 }) {
   const user = useSelector((state) => state.user.currentUser);
 
   const imgSrc = user?.avatarUrl
-    ? `https://localhost:7185/ProfileImages/${user.avatarUrl}`
+    ? `${FILES_BASE_URL}/ProfileImages/${user.avatarUrl}`
     : null;
 
   return (

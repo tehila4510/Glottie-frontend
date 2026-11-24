@@ -1,4 +1,4 @@
-const BASE_URL = 'https://localhost:7185/api';
+import { API_BASE_URL as BASE_URL } from '../../../app/config';
 
 export async function askChatTeacher(message, history, token) {
   const res = await fetch(`${BASE_URL}/Chat/ask`, {

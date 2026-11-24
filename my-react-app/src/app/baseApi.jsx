@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { logout } from '../features/User/Redux/userSlice'; // וודא שהנתיב נכון
+import { logout } from '../features/User/Redux/userSlice';
+import { API_BASE_URL } from './config';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://localhost:7185/api',
+  baseUrl: API_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
     const token = (getState()).user?.token; 
     if (token) {
