@@ -1,17 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-:root {
-  --primary-dark: #0f172a; 
-  --slate-50:  #f8fafc;
-  --slate-200: #e2e8f0;
-  --slate-400: #94a3b8;
-  --slate-600: #475569;
-  --success-text: #059669;
-  --success-bg:   #ecfdf5;
-  --danger-text:  #dc2626;
-  --danger-bg:    #fef2f2;
-  --white: #ffffff;
-}
 
 .ev-page {
   min-height: 100vh;
@@ -21,7 +8,7 @@
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
-  color: var(--primary-dark);
+  color: var(--slate-900);
 }
 
 /* ── Header ── */
@@ -39,7 +26,7 @@
   font-size: 32px;
   font-weight: 800;
   letter-spacing: -0.025em;
-  color: var(--primary-dark);
+  color: var(--slate-900);
   margin: 0;
 }
 
@@ -52,7 +39,7 @@
 .ev-count-pill {
   background: var(--white);
   border: 1px solid var(--slate-200);
-  color: var(--primary-dark);
+  color: var(--slate-900);
   font-weight: 700;
   font-size: 13px;
   padding: 6px 14px;
@@ -85,7 +72,7 @@
 .ev-question {
   font-size: 16px;
   font-weight: 600;
-  color: var(--primary-dark);
+  color: var(--slate-900);
   margin-bottom: 24px;
 }
 
@@ -128,7 +115,7 @@
 .ev-chip-value {
   font-size: 15px;
   font-weight: 500;
-  color: var(--primary-dark);
+  color: var(--slate-900);
 }
 
 /* ── Footer ── */
@@ -157,7 +144,7 @@
 }
 
 .ev-retry-btn {
-  background: var(--primary-dark);
+  background: var(--slate-900);
   color: white;
   font-weight: 600;
   font-size: 13px;

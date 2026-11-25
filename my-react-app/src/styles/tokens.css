@@ -1,11 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
+  /* ── Brand palette ── */
   --purple: #7B5EFF;
   --purple-dark: #5B3FD9;
   --purple-light: #B09EFF;
+  --purple-50: #EDE9FF;
   --blue: #3B8FFF;
   --blue-light: #E8F0FF;
   --yellow: #FFB800;
@@ -15,19 +17,48 @@
   --red: #FF5C7A;
   --red-light: #FFEEF2;
   --orange: #FF8C42;
+
+  /* ── App surface / text (purple-tinted) ── */
   --bg: #F5F4FF;
   --bg3: #EEEAFF;
-  --border: rgba(123, 94, 255, 0.15);
-  --shadow: 0 4px 24px rgba(123, 94, 255, 0.10);
-  --shadow-lg: 0 8px 40px rgba(123, 94, 255, 0.18);
   --text: #1A1440;
   --text-muted: #7B72A0;
+  --border: rgba(123, 94, 255, 0.15);
+  --shadow: 0 4px 24px rgba(123, 94, 255, 0.12);
+  --shadow-lg: 0 12px 40px rgba(123, 94, 255, 0.22);
+  --shadow-soft: 0 4px 20px rgba(15, 23, 42, 0.03);
+
+  /* ── Neutral scale (used by Quiz, Profile, Errors, Chat, Home) ── */
+  --white: #ffffff;
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --surface-alt: #fcfcfd;
+
+  /* ── Accent + status colors for the Inter-styled screens ── */
+  --indigo-50: #eef2ff;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+  --emerald-500: #10b981;
+  --success-text: #059669;
+  --success-bg: #ecfdf5;
+  --red-500: #ef4444;
+  --danger-text: #dc2626;
+  --danger-bg: #fef2f2;
+
   --sidebar-w: 248px;
 }
 
 html, body, #root {
   width: 100%;
   height: 100%;
+  min-height: 100%;
 }
 
 body {

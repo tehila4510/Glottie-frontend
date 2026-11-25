@@ -12,19 +12,19 @@
 }
 
 .word-bubble:hover {
-  background-color: #e2e8f0;
-  border-color: #94a3b8;
+  background-color: var(--slate-200);
+  border-color: var(--slate-400);
   transform: translateY(-2px); /* המילה "קופצת" מעט למעלה */
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .word-bubble:active {
   transform: translateY(0);
-  background-color: #cbd5e1;
+  background-color: var(--slate-300);
 }
 
 .word-bubble.selected {
-  background-color: #4f46e5;
+  background-color: var(--indigo-600);
   color: white;
-  border-color: #4f46e5;
+  border-color: var(--indigo-600);
 }
