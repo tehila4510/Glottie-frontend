@@ -48,7 +48,18 @@ export default function LoginTab({ onAuthSuccess, setAlert }) {
 
     try {
       const result = await loginUser(loginForm).unwrap();
-      dispatch(setUser({ token: result.token, user: result.user }));
+      const token = result?.token || result?.Token;
+      const user = result?.user || result?.User;
+
+      if (!token || !user) {
+        setAlert({
+          type: "error",
+          msg: "Login response did not include the required user and token.",
+        });
+        return;
+      }
+
+      dispatch(setUser({ token, user }));
       onAuthSuccess();
     } catch (err) {
       setAlert({ type: "error", msg: getErrorMessage(err) });
