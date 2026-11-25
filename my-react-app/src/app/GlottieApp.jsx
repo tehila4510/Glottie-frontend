@@ -5,7 +5,7 @@ import Sidebar       from './Sidebar';
 import UserAvatar from '../features/User/Components/userAvatar';
 
 
-import '../styles/variables.css';
+import '../styles/tokens.css';
 import AppRouter from './router';
 import { NAV_CONFIG } from '../utils/navConfig';
 

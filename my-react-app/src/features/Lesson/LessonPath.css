@@ -1,11 +1,10 @@
 /* ── LessonPath.css ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .lesson-path-container {
   font-family: 'Inter', sans-serif;
   max-width: 100%;
   padding: 20px;
-  background: #fcfcfd;
+  background: var(--surface-alt);
 }
 
 /* ── HEADER ── */
@@ -14,16 +13,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px;
-  background: #fff;
+  background: var(--white);
   border-radius: 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--slate-200);
   margin-bottom: 40px;
 }
 
 .back-btn {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  color: #475569;
+  background: var(--slate-100);
+  border: 1px solid var(--slate-200);
+  color: var(--slate-600);
   padding: 8px 16px;
   border-radius: 8px;
   font-weight: 600;
@@ -33,20 +32,20 @@
 }
 
 .back-btn:hover {
-  background: #e2e8f0;
+  background: var(--slate-200);
   transform: translateX(-2px);
 }
 
 .header-skill-info h3 {
   font-size: 18px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--slate-900);
   margin: 0;
 }
 
 .header-skill-sub {
   font-size: 13px;
-  color: #64748b;
+  color: var(--slate-500);
   margin-top: 2px;
 }
 
@@ -62,7 +61,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #94a3b8;
+  color: var(--slate-400);
   margin-bottom: 32px;
 }
 
@@ -79,39 +78,39 @@
   transition: all 0.2s ease;
   z-index: 2;
   background: white;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--slate-200);
 }
 
 .step-node.completed {
-  background: #ecfdf5;
-  border-color: #10b981;
-  color: #10b981;
+  background: var(--success-bg);
+  border-color: var(--emerald-500);
+  color: var(--emerald-500);
   cursor: pointer;
 }
 
 .step-node.current {
-  background: #eef2ff;
-  border-color: #4f46e5;
-  color: #4f46e5;
-  box-shadow: 0 0 0 4px #eef2ff;
+  background: var(--indigo-50);
+  border-color: var(--indigo-600);
+  color: var(--indigo-600);
+  box-shadow: 0 0 0 4px var(--indigo-50);
   cursor: pointer;
 }
 
 .step-node.locked {
-  background: #f8fafc;
-  color: #cbd5e1;
+  background: var(--slate-50);
+  color: var(--slate-300);
   border-style: dashed;
 }
 
 .path-connector {
   width: 2px;
   height: 40px;
-  background: #e2e8f0;
+  background: var(--slate-200);
   margin: 4px 0;
 }
 
 .path-connector.completed {
-  background: #10b981;
+  background: var(--emerald-500);
 }
 
 /* ── LABELS ── */
@@ -119,13 +118,13 @@
   margin-top: 12px;
   font-size: 13px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--slate-500);
   text-align: center;
   max-width: 120px;
 }
 
 .step-label.active {
-  color: #0f172a;
+  color: var(--slate-900);
   font-weight: 700;
 }
 

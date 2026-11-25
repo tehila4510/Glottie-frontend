@@ -1,26 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap');
 
-:root {
-  --g-purple:        #7B5EFF;
-  --g-purple-dark:   #5B3FD9;
-  --g-purple-light:  #EDE9FF;
-  --g-blue:          #3B8FFF;
-  --g-yellow:        #FFB800;
-  --g-bg:            #F8FAFC;
-  --g-white:         #FFFFFF;
-  --g-text:          #0F172A;
-  --g-text-muted:    #64748B;
-  --g-border:        #E2E8F0;
-  --g-shadow:        0 4px 20px rgba(15, 23, 42, 0.03);
-}
 
 /* ── PAGE ───────────────────────────────── */
 .page {
   padding: 32px;
   min-height: 100vh;
-  background: var(--g-bg);
+  background: var(--slate-50);
   font-family: 'Nunito', sans-serif;
-  color: var(--g-text);
+  color: var(--slate-900);
   position: relative;
 }
 
@@ -33,13 +19,13 @@
   filter: blur(100px);
   opacity: 0.08;
 }
-.g-blob-1 { width: 400px; height: 400px; background: var(--g-purple); top: -150px; right: -100px; }
-.g-blob-2 { width: 300px; height: 300px; background: var(--g-blue); bottom: 20px; left: -80px; }
+.g-blob-1 { width: 400px; height: 400px; background: var(--purple); top: -150px; right: -100px; }
+.g-blob-2 { width: 300px; height: 300px; background: var(--blue); bottom: 20px; left: -80px; }
 
 /* ── HERO SECTION ───────────────────────── */
 .home-hero {
   position: relative;
-  background: var(--g-white);
+  background: var(--white);
 
   border: 1px solid rgba(123, 94, 255, 0.15); 
   border-radius: 24px;
@@ -56,7 +42,7 @@
 .hero-greeting {
   font-size: 13px;
   font-weight: 700;
-  color: var(--g-purple);
+  color: var(--purple);
   letter-spacing: 0.5px;
   margin-bottom: 6px;
   text-transform: uppercase;
@@ -65,16 +51,16 @@
 .hero-title {
   font-family: 'Fredoka One', cursive;
   font-size: 32px;
-  color: var(--g-text);
+  color: var(--slate-900);
   line-height: 1.2;
   margin-bottom: 8px;
 }
 
-.hero-title span { color: var(--g-purple); }
+.hero-title span { color: var(--purple); }
 
 .hero-sub {
   font-size: 14px;
-  color: var(--g-text-muted);
+  color: var(--slate-500);
   font-weight: 500;
   max-width: 460px;
   margin-bottom: 24px;
@@ -86,18 +72,18 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #F1F5F9;
-  border: 1px solid #E2E8F0;
+  background: var(--slate-100);
+  border: 1px solid var(--slate-200);
   padding: 8px 16px;
   border-radius: 12px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--g-text);
+  color: var(--slate-900);
   transition: all 0.2s ease;
   cursor: pointer;
 }
 .stat-chip:hover {
-  background: #E2E8F0;
+  background: var(--slate-200);
   transform: translateY(-1px);
 }
 
@@ -112,7 +98,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--g-text);
+  color: var(--slate-900);
 }
 
 .skills-grid {
@@ -124,10 +110,10 @@
 
 /* ── SKILL CARD ─────────────────────────── */
 .skill-card-home {
-  background: var(--g-white);
+  background: var(--white);
   border-radius: 20px;
   padding: 24px 20px;
-  border: 1px solid var(--g-border);
+  border: 1px solid var(--slate-200);
   cursor: pointer; /* מצביע יד */
   transition: all 0.25s ease;
   display: flex;
@@ -135,7 +121,7 @@
   align-items: center;
   min-height: 220px;
   position: relative;
-  box-shadow: var(--g-shadow);
+  box-shadow: var(--shadow-soft);
 }
 
 .skill-card-home:not(.locked):hover {
@@ -146,14 +132,14 @@
 
 .skill-card-home.selected {
   border-color: var(--card-color);
-  background: var(--g-white);
+  background: var(--white);
   transform: translateY(-5px);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
 }
 
 .skill-card-home.locked {
   opacity: 0.5;
-  background: #F1F5F9;
+  background: var(--slate-100);
   cursor: not-allowed;
 }
 
@@ -176,14 +162,14 @@
 .skill-progress-text-home {
   font-size: 12px;
   font-weight: 700;
-  color: var(--g-text-muted);
+  color: var(--slate-500);
   margin-bottom: 12px;
 }
 
 .skill-bar-home {
   height: 5px;
   width: 100%;
-  background: #F1F5F9;
+  background: var(--slate-100);
   border-radius: 10px;
   overflow: hidden;
   margin-top: auto;
@@ -193,8 +179,8 @@
 
 /* ── BUTTON ─────────────────────────────── */
 .btn-primary {
-  background: var(--g-purple);
-  color: #fff;
+  background: var(--purple);
+  color: var(--white);
   border: none;
   padding: 16px 48px;
   border-radius: 14px;
@@ -206,7 +192,7 @@
 }
 
 .btn-primary:hover {
-  background: var(--g-purple-dark);
+  background: var(--purple-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(123, 94, 255, 0.3);
 }

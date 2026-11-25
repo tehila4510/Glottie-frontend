@@ -38,7 +38,7 @@
 
 .result-subtitle {
   font-size: 18px;
-  color: #64748b;
+  color: var(--slate-500);
   margin-bottom: 30px;
 }
 
@@ -65,13 +65,13 @@
 .r-val {
   font-size: 32px;
   font-weight: 800;
-  color: #1e293b;
+  color: var(--slate-800);
 }
 
 .r-lbl {
   font-size: 13px;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--slate-400);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -87,7 +87,7 @@
   justify-content: space-between;
   font-weight: 700;
   margin-bottom: 10px;
-  color: #475569;
+  color: var(--slate-600);
 }
 
 .xp-bar-outer {
@@ -99,7 +99,7 @@
 
 .xp-bar-inner {
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #4f46e5);
+  background: linear-gradient(90deg, var(--indigo-500), var(--indigo-600));
   border-radius: 20px;
 }
 
@@ -125,7 +125,7 @@
 }
 
 .result-home-btn {
-  background: #4f46e5;
+  background: var(--indigo-600);
   color: white;
   box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
 }
@@ -136,13 +136,13 @@
 }
 
 .result-again-btn {
-  background: #ffffff !important;
-  color: #475569 !important;
-  border: 1px solid #e2e8f0 !important;
+  background: var(--white) !important;
+  color: var(--slate-600) !important;
+  border: 1px solid var(--slate-200) !important;
 }
 
 .result-again-btn:hover {
-  background: #f8fafc !important;
+  background: var(--slate-50) !important;
 }
 
 @keyframes fadeIn {
