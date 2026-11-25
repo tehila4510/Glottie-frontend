@@ -1,0 +1,52 @@
+# Full Glottie stack: SQL Server + .NET API + React client.
+#   docker compose up --build
+# Then open http://localhost:5173
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    # On Apple Silicon (M1/M2/M3) uncomment the next line:
+    # platform: linux/amd64
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Glottie_Str0ng!Pass"
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "Glottie_Str0ng!Pass" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  api:
+    # Built straight from the backend repo. After the backend Docker branch is merged,
+    # change "#add-docker-support" to "#main".
+    build: https://github.com/tehila4510/Glottie-backend.git#add-docker-support
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development   # enables Swagger at /swagger
+      ConnectionStrings__DefaultConnection: "Server=db;Database=Glottie;User Id=sa;Password=Glottie_Str0ng!Pass;TrustServerCertificate=True"
+      Jwt__Key: "demo-secret-key-replace-me-at-least-32-characters-long"
+      GeminiSettings__ApiKey: ${GEMINI_API_KEY:-}
+    volumes:
+      - profileimages:/app/ProfileImages
+
+  web:
+    build:
+      context: ./my-react-app
+      args:
+        # Address the BROWSER uses to reach the API (published on the host at 8080)
+        VITE_API_URL: http://localhost:8080/api
+    depends_on:
+      - api
+    ports:
+      # 5173 on purpose: the backend's CORS policy allows http://localhost:5173
+      - "5173:80"
+
+volumes:
+  sqldata:
+  profileimages:

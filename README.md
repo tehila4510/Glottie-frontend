@@ -153,3 +153,19 @@ VITE_API_URL=https://your-backend-host/api
 *Keep learning, keep growing.*
 
 </div>
+
+---
+
+## 🐳 Run everything with Docker
+
+The fastest way to try Glottie (database + API + client) with nothing but Docker installed:
+
+```bash
+git clone https://github.com/tehila4510/glottie-frontend.git
+cd glottie-frontend
+# optional: enable the AI tutor
+echo GEMINI_API_KEY=your-key > .env
+docker compose up --build
+```
+
+Then open **http://localhost:5173** (API Swagger: http://localhost:8080/swagger). The first run downloads a few GB of images and takes several minutes.
